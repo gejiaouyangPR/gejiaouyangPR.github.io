@@ -10,13 +10,12 @@
             const inputText = document.getElementById('inputText');
             const responseText = document.getElementById('responseText');
             const message = inputText.value;
-            const apiKey = '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';
-
+            
             const requestOptions = {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${apiKey}`
+                    
                 },
                 body: JSON.stringify({
                     'model': 'text-davinci-002', // Specify the desired model here
@@ -29,7 +28,7 @@
             };
 
             try {
-                const response = await fetch('https://api.openai.com/v1/engines/davinci-codex/completions', requestOptions);
+                const response = await fetch('http://127.0.0.1:5000/chatgpt', requestOptions);
                 const data = await response.json();
                 console.log("API data:", data); // Log the complete data object
                 if (data && data.choices && data.choices.length > 0) {
