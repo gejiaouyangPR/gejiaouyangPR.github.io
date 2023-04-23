@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ChatGPT Demo</title>
+
+    <script>
+        async function sendMessage() {
+            const inputText = document.getElementById('inputText');
+            const responseText = document.getElementById('responseText');
+            const message = inputText.value;
+            const apiKey = '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';
+    
+            const requestOptions = {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${apiKey}`
+                },
+                body: JSON.stringify({
+                    'model': 'text-davinci-002', // Specify the desired model here
+                    'messages': [{'role': 'user', 'content': message}],
+                    'options': {
+                        'use_cache': true,
+                        'max_tokens': 300 // Specify the desired number of max tokens here
+                    }
+                })
+            };
+    
+            try {
+                const response = await fetch('https://api.openai.com/v1/engines/davinci-codex/completions', requestOptions);
+                const data = await response.json();
+                const generatedMessage = data.choices[0].text.trim();
+                responseText.innerHTML = generatedMessage;
+            } catch (error) {
+                console.error('Error while fetching ChatGPT:', error);
+                responseText.innerHTML = 'An error occurred. Please try again.';
+            }
+        }
+    </script>
+    
+
+</head>
+<body>
+    <!-- ChatGPT interface will be added here -->
+    <h1>ChatGPT Demo</h1>
+    <textarea id="inputText" rows="4" cols="50" placeholder="Enter your message here"></textarea><br>
+    <button id="sendButton" onclick="sendMessage()">Send</button>
+    <h2>Response:</h2>
+    <div id="responseText" style="border:1px solid black; padding:10px; min-height:50px;"></div>
+
+</body>
+</html>
