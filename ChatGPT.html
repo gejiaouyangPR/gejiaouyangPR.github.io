@@ -6,12 +6,12 @@
     <title>ChatGPT Demo</title>
 
     <script>
-        async function sendMessage() {
+       async function sendMessage() {
             const inputText = document.getElementById('inputText');
             const responseText = document.getElementById('responseText');
             const message = inputText.value;
-            const apiKey = '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';
-    
+            const apiKey = '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';
+
             const requestOptions = {
                 method: 'POST',
                 headers: {
@@ -27,17 +27,24 @@
                     }
                 })
             };
-    
+
             try {
                 const response = await fetch('https://api.openai.com/v1/engines/davinci-codex/completions', requestOptions);
                 const data = await response.json();
-                const generatedMessage = data.choices[0].text.trim();
-                responseText.innerHTML = generatedMessage;
+                console.log("API data:", data); // Log the complete data object
+                if (data && data.choices && data.choices.length > 0) {
+                    const generatedMessage = data.choices[0].text.trim();
+                    responseText.innerHTML = generatedMessage;
+                } else {
+                    console.log("Error: data.choices is missing or empty."); // Log this error message if data.choices is missing or empty
+                    responseText.innerHTML = 'An error occurred. Please try again.';
+                }
             } catch (error) {
                 console.error('Error while fetching ChatGPT:', error);
                 responseText.innerHTML = 'An error occurred. Please try again.';
             }
         }
+
     </script>
     
 
